@@ -5,25 +5,8 @@ class BodyPartStatus:
 	var sensitivity: float = 1.0  ## 感度倍率
 	var touch_count: int   = 0    ## お触り回数
 
-## 各部位の affinity/arousal/shyness 加算量（部位名をキーにする）
-const TOUCH_AFFINITY: Dictionary = {
-	&"head":  5,
-	&"chest": 8,
-	&"belly": 6,
-	&"hand":  3,
-}
-const TOUCH_AROUSAL: Dictionary = {
-	&"head":  2,
-	&"chest": 10,
-	&"belly": 7,
-	&"hand":  2,
-}
-const TOUCH_SHYNESS: Dictionary = {
-	&"head":  3,
-	&"chest": 8,
-	&"belly": 6,
-	&"hand":  2,
-}
+## 部位ごとの加算量
+const TOUCH_AMOUNT: int = 5
 
 ## リアクションアニメのパラメータ
 const SHAKE_AMOUNT: float  = 8.0
@@ -31,6 +14,18 @@ const SHAKE_DURATION: float = 0.08
 const SHAKE_COUNT: int      = 3
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var face_sprite: Sprite2D = $FaceSprite
+
+const FACE_TEXTURES: Dictionary = {
+	&"normal":    "res://assets/images/characters/chara_01/face/normal.png",
+	&"smile":     "res://assets/images/characters/chara_01/face/smile.png",
+	&"shy":       "res://assets/images/characters/chara_01/face/shy.png",
+	&"surprise":  "res://assets/images/characters/chara_01/face/surprise.png",
+	&"blush":     "res://assets/images/characters/chara_01/face/blush.png",
+	&"evilsmile": "res://assets/images/characters/chara_01/face/evilsmile.png",
+	&"ahegao":    "res://assets/images/characters/chara_01/face/ahegao.png",
+	&"tears":     "res://assets/images/characters/chara_01/face/tears.png",
+}
 
 ## 部位ごとのステータスを保持する辞書
 var _part_status: Dictionary = {}
@@ -50,19 +45,49 @@ func _ready() -> void:
 
 
 func _on_touch_detected(part_name: StringName) -> void:
-	## ステータス更新
 	if not _part_status.has(part_name):
 		_part_status[part_name] = BodyPartStatus.new()
 	var status: BodyPartStatus = _part_status[part_name]
 	status.touch_count += 1
-	var multiplier: float = status.sensitivity
+	var amt: int = int(TOUCH_AMOUNT * status.sensitivity)
 
-	GameManager.add_affinity(int(TOUCH_AFFINITY.get(part_name, 3) * multiplier))
-	GameManager.add_arousal(int(TOUCH_AROUSAL.get(part_name, 2) * multiplier))
-	GameManager.add_shyness(int(TOUCH_SHYNESS.get(part_name, 2) * multiplier))
+	match part_name:
+		&"head", &"hand":
+			GameManager.add_affinity(amt)
+		&"chest":
+			GameManager.add_arousal(amt)
+			GameManager.add_shyness(amt)
+		&"belly":
+			if GameManager.affinity >= GameManager.MAX_STATUS:
+				GameManager.add_arousal(amt)
+			else:
+				GameManager.add_shyness(amt)
 
-	## リアクションアニメーション（ぷるぷる）
+	_update_face()
 	_play_shake_reaction()
+
+
+func _update_face() -> void:
+	var affinity: int = GameManager.affinity
+	var arousal: int  = GameManager.arousal
+	var shyness: int  = GameManager.shyness
+
+	if arousal >= 80:
+		set_face(&"ahegao")
+	elif shyness >= 80:
+		set_face(&"tears")
+	elif arousal >= 60:
+		set_face(&"evilsmile")
+	elif shyness >= 60:
+		set_face(&"blush")
+	elif arousal >= 40:
+		set_face(&"surprise")
+	elif shyness >= 40:
+		set_face(&"shy")
+	elif affinity >= 40:
+		set_face(&"smile")
+	else:
+		set_face(&"normal")
 
 
 ## Tween で横方向に微振動させるリアクション
@@ -79,6 +104,12 @@ func _play_shake_reaction() -> void:
 			SHAKE_DURATION
 		)
 	tween.tween_property(self, "position", _base_position, SHAKE_DURATION)
+
+
+## 表情差分を切り替える
+func set_face(face_name: StringName) -> void:
+	if FACE_TEXTURES.has(face_name):
+		face_sprite.texture = load(FACE_TEXTURES[face_name])
 
 
 ## 外部から感度を設定するユーティリティ

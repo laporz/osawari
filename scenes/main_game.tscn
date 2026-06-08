@@ -1,132 +1,144 @@
-[gd_scene load_steps=9 format=3 uid="uid://main_game"]
+[gd_scene format=3 uid="uid://bglsmeb2ve6b3"]
 
-[ext_resource type="Script" path="res://src/characters/CharacterController.gd" id="1_chara"]
-[ext_resource type="Script" path="res://src/characters/BodyPartArea2D.gd" id="2_part"]
-[ext_resource type="Script" path="res://src/ui/StatusUI.gd" id="3_status"]
-[ext_resource type="Script" path="res://src/ui/MainGame.gd" id="4_main"]
+[ext_resource type="Script" uid="uid://bglx5yko8jotb" path="res://src/characters/CharacterController.gd" id="1_chara"]
+[ext_resource type="Script" uid="uid://cyddbbdd45dwe" path="res://src/characters/BodyPartArea2D.gd" id="2_part"]
+[ext_resource type="Script" uid="uid://cvlwd4riwlgec" path="res://src/ui/StatusUI.gd" id="3_status"]
+[ext_resource type="Script" uid="uid://br08iwi88fim6" path="res://src/ui/MainGame.gd" id="4_main"]
+[ext_resource type="Texture2D" uid="uid://bf6gb7fysapla" path="res://assets/images/background/room_01.png" id="5_bg"]
+[ext_resource type="Texture2D" uid="uid://6otcbqepjo0r" path="res://assets/images/characters/chara_01/body/body.png" id="6_body"]
+[ext_resource type="Texture2D" uid="uid://vspfr33e4m7v" path="res://assets/images/characters/chara_01/face/normal.png" id="7_face"]
 
 [sub_resource type="RectangleShape2D" id="shape_head"]
-size = Vector2(100, 80)
+size = Vector2(396, 290)
 
 [sub_resource type="RectangleShape2D" id="shape_chest"]
-size = Vector2(120, 80)
+size = Vector2(401, 313)
 
 [sub_resource type="RectangleShape2D" id="shape_belly"]
-size = Vector2(100, 60)
+size = Vector2(314, 213)
 
 [sub_resource type="RectangleShape2D" id="shape_hand"]
-size = Vector2(60, 60)
+size = Vector2(248, 75)
 
-[node name="MainGame" type="Node2D"]
+[node name="MainGame" type="Node2D" unique_id=1265027058]
 script = ExtResource("4_main")
 
-[node name="Character" type="Node2D" parent="."]
-position = Vector2(640, 360)
+[node name="Background" type="Sprite2D" parent="." unique_id=42948953]
+position = Vector2(960, 540)
+texture = ExtResource("5_bg")
+
+[node name="Character" type="Node2D" parent="." unique_id=351814402]
+position = Vector2(960, 540)
 script = ExtResource("1_chara")
 
-[node name="Sprite2D" type="Sprite2D" parent="Character"]
+[node name="Sprite2D" type="Sprite2D" parent="Character" unique_id=1095918471]
+texture = ExtResource("6_body")
 
-[node name="Head" type="Area2D" parent="Character"]
+[node name="FaceSprite" type="Sprite2D" parent="Character" unique_id=887987072]
+texture = ExtResource("7_face")
+
+[node name="Head" type="Area2D" parent="Character" unique_id=1246133672]
 script = ExtResource("2_part")
 body_part_name = &"head"
 
-[node name="HeadShape" type="CollisionShape2D" parent="Character/Head"]
-position = Vector2(0, -120)
+[node name="HeadShape" type="CollisionShape2D" parent="Character/Head" unique_id=1310433794]
+position = Vector2(537, -239)
 shape = SubResource("shape_head")
 
-[node name="Chest" type="Area2D" parent="Character"]
+[node name="Chest" type="Area2D" parent="Character" unique_id=65984309]
 script = ExtResource("2_part")
 body_part_name = &"chest"
 
-[node name="ChestShape" type="CollisionShape2D" parent="Character/Chest"]
-position = Vector2(0, -20)
+[node name="ChestShape" type="CollisionShape2D" parent="Character/Chest" unique_id=795574042]
+position = Vector2(200, 79)
 shape = SubResource("shape_chest")
 
-[node name="Belly" type="Area2D" parent="Character"]
+[node name="Belly" type="Area2D" parent="Character" unique_id=1072748736]
 script = ExtResource("2_part")
 body_part_name = &"belly"
 
-[node name="BellyShape" type="CollisionShape2D" parent="Character/Belly"]
-position = Vector2(0, 60)
+[node name="BellyShape" type="CollisionShape2D" parent="Character/Belly" unique_id=1718444796]
+position = Vector2(-379, 192)
 shape = SubResource("shape_belly")
 
-[node name="Hand" type="Area2D" parent="Character"]
+[node name="Hand" type="Area2D" parent="Character" unique_id=1399542806]
 script = ExtResource("2_part")
 body_part_name = &"hand"
 
-[node name="HandShape" type="CollisionShape2D" parent="Character/Hand"]
-position = Vector2(80, 20)
+[node name="HandShape" type="CollisionShape2D" parent="Character/Hand" unique_id=36695841]
+position = Vector2(173, -132.5)
 shape = SubResource("shape_hand")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=2144875297]
 
-[node name="StatusUI" type="Control" parent="UILayer"]
+[node name="StatusUI" type="Control" parent="UILayer" unique_id=848655334]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 29.0
+offset_right = 6.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("3_status")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/StatusUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/StatusUI" unique_id=257673253]
 layout_mode = 1
-anchors_preset = 0
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 280.0
 offset_bottom = 130.0
 theme_override_constants/separation = 6
 
-[node name="AffinityRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer"]
+[node name="AffinityRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer" unique_id=1775640626]
 layout_mode = 2
 
-[node name="AffinityLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/AffinityRow"]
-layout_mode = 2
+[node name="AffinityLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/AffinityRow" unique_id=141000872]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "好感度: 0"
 
-[node name="AffinityBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/AffinityRow"]
+[node name="AffinityBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/AffinityRow" unique_id=934973989]
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
-max_value = 100.0
 
-[node name="ArousalRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer"]
+[node name="ArousalRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer" unique_id=1044479292]
 layout_mode = 2
 
-[node name="ArousalLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ArousalRow"]
-layout_mode = 2
+[node name="ArousalLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ArousalRow" unique_id=819206996]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "興奮度: 0"
 
-[node name="ArousalBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ArousalRow"]
+[node name="ArousalBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ArousalRow" unique_id=27051236]
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
-max_value = 100.0
 
-[node name="ShynessRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer"]
+[node name="ShynessRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer" unique_id=1250590046]
 layout_mode = 2
 
-[node name="ShynessLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ShynessRow"]
-layout_mode = 2
+[node name="ShynessLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ShynessRow" unique_id=593627373]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "羞恥度: 0"
 
-[node name="ShynessBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ShynessRow"]
+[node name="ShynessBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ShynessRow" unique_id=929097961]
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
-max_value = 100.0
 
-[node name="BtnEnd" type="Button" parent="UILayer"]
-layout_mode = 1
-anchors_preset = 4
+[node name="BtnEnd" type="Button" parent="UILayer" unique_id=523193928]
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -180.0
-offset_top = -60.0
-offset_right = -16.0
-offset_bottom = -16.0
+offset_left = -196.0
+offset_top = -106.0
+offset_right = -32.0
+offset_bottom = -62.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "お触り終了"
