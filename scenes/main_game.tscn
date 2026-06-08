@@ -1,0 +1,132 @@
+[gd_scene load_steps=9 format=3 uid="uid://main_game"]
+
+[ext_resource type="Script" path="res://src/characters/CharacterController.gd" id="1_chara"]
+[ext_resource type="Script" path="res://src/characters/BodyPartArea2D.gd" id="2_part"]
+[ext_resource type="Script" path="res://src/ui/StatusUI.gd" id="3_status"]
+[ext_resource type="Script" path="res://src/ui/MainGame.gd" id="4_main"]
+
+[sub_resource type="RectangleShape2D" id="shape_head"]
+size = Vector2(100, 80)
+
+[sub_resource type="RectangleShape2D" id="shape_chest"]
+size = Vector2(120, 80)
+
+[sub_resource type="RectangleShape2D" id="shape_belly"]
+size = Vector2(100, 60)
+
+[sub_resource type="RectangleShape2D" id="shape_hand"]
+size = Vector2(60, 60)
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("4_main")
+
+[node name="Character" type="Node2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("1_chara")
+
+[node name="Sprite2D" type="Sprite2D" parent="Character"]
+
+[node name="Head" type="Area2D" parent="Character"]
+script = ExtResource("2_part")
+body_part_name = &"head"
+
+[node name="HeadShape" type="CollisionShape2D" parent="Character/Head"]
+position = Vector2(0, -120)
+shape = SubResource("shape_head")
+
+[node name="Chest" type="Area2D" parent="Character"]
+script = ExtResource("2_part")
+body_part_name = &"chest"
+
+[node name="ChestShape" type="CollisionShape2D" parent="Character/Chest"]
+position = Vector2(0, -20)
+shape = SubResource("shape_chest")
+
+[node name="Belly" type="Area2D" parent="Character"]
+script = ExtResource("2_part")
+body_part_name = &"belly"
+
+[node name="BellyShape" type="CollisionShape2D" parent="Character/Belly"]
+position = Vector2(0, 60)
+shape = SubResource("shape_belly")
+
+[node name="Hand" type="Area2D" parent="Character"]
+script = ExtResource("2_part")
+body_part_name = &"hand"
+
+[node name="HandShape" type="CollisionShape2D" parent="Character/Hand"]
+position = Vector2(80, 20)
+shape = SubResource("shape_hand")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="StatusUI" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3_status")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/StatusUI"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 130.0
+theme_override_constants/separation = 6
+
+[node name="AffinityRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer"]
+layout_mode = 2
+
+[node name="AffinityLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/AffinityRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "好感度: 0"
+
+[node name="AffinityBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/AffinityRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+
+[node name="ArousalRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer"]
+layout_mode = 2
+
+[node name="ArousalLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ArousalRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "興奮度: 0"
+
+[node name="ArousalBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ArousalRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+
+[node name="ShynessRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer"]
+layout_mode = 2
+
+[node name="ShynessLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ShynessRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "羞恥度: 0"
+
+[node name="ShynessBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ShynessRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+
+[node name="BtnEnd" type="Button" parent="UILayer"]
+layout_mode = 1
+anchors_preset = 4
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -60.0
+offset_right = -16.0
+offset_bottom = -16.0
+text = "お触り終了"
