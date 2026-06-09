@@ -6,6 +6,7 @@ const RESOLUTIONS: Array[Vector2i] = [
 	Vector2i(1280, 720),
 	Vector2i(1920, 1080),
 	Vector2i(2560, 1440),
+	Vector2i(3840, 2160),
 ]
 
 @onready var resolution_option: OptionButton = $MarginContainer/VBoxContainer/ResolutionRow/ResolutionOption
@@ -43,6 +44,7 @@ func _load_settings() -> void:
 	var fs: bool = config.get_value("display", "fullscreen", false)
 	fullscreen_check.button_pressed = fs
 	_apply_fullscreen(fs)
+	resolution_option.disabled = fs
 
 	var bgm_vol: float = config.get_value("audio", "bgm_volume", 1.0)
 	var se_vol: float  = config.get_value("audio", "se_volume",  1.0)
@@ -64,6 +66,9 @@ func _save_settings() -> void:
 func _apply_resolution(index: int) -> void:
 	if index < 0 or index >= RESOLUTIONS.size():
 		return
+	## フルスクリーン中は解像度変更をスキップ（OSが管理するため）
+	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		return
 	var res: Vector2i = RESOLUTIONS[index]
 	DisplayServer.window_set_size(res)
 
@@ -73,6 +78,8 @@ func _apply_fullscreen(enabled: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		## フルスクリーン解除後に保存済み解像度を再適用
+		_apply_resolution(resolution_option.selected)
 
 
 func _apply_bgm_volume(value: float) -> void:
@@ -96,6 +103,7 @@ func _on_resolution_selected(index: int) -> void:
 
 func _on_fullscreen_toggled(enabled: bool) -> void:
 	_apply_fullscreen(enabled)
+	resolution_option.disabled = enabled
 	_save_settings()
 
 

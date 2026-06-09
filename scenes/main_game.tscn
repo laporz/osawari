@@ -76,58 +76,20 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 29.0
-offset_right = 6.0
-offset_bottom = 29.0
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_status")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/StatusUI" unique_id=257673253]
-layout_mode = 1
-offset_left = 16.0
+[node name="DayLabel" type="Label" parent="UILayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -160.0
 offset_top = 16.0
-offset_right = 280.0
-offset_bottom = 130.0
-theme_override_constants/separation = 6
-
-[node name="AffinityRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer" unique_id=1775640626]
-layout_mode = 2
-
-[node name="AffinityLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/AffinityRow" unique_id=141000872]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "好感度: 0"
-
-[node name="AffinityBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/AffinityRow" unique_id=934973989]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ArousalRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer" unique_id=1044479292]
-layout_mode = 2
-
-[node name="ArousalLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ArousalRow" unique_id=819206996]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "興奮度: 0"
-
-[node name="ArousalBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ArousalRow" unique_id=27051236]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ShynessRow" type="HBoxContainer" parent="UILayer/StatusUI/VBoxContainer" unique_id=1250590046]
-layout_mode = 2
-
-[node name="ShynessLabel" type="Label" parent="UILayer/StatusUI/VBoxContainer/ShynessRow" unique_id=593627373]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "羞恥度: 0"
-
-[node name="ShynessBar" type="ProgressBar" parent="UILayer/StatusUI/VBoxContainer/ShynessRow" unique_id=929097961]
-layout_mode = 2
-size_flags_horizontal = 3
+offset_right = -16.0
+offset_bottom = 48.0
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+text = "Day 1"
 
 [node name="BtnEnd" type="Button" parent="UILayer" unique_id=523193928]
 anchors_preset = 3

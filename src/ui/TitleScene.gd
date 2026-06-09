@@ -20,8 +20,9 @@ func _ready() -> void:
 
 
 func _on_start_pressed() -> void:
+	## 新規ゲーム開始 → ここで全リセット（ジェム・開発度・日数すべて初期化）
 	GameManager.reset()
-	get_tree().change_scene_to_file("res://scenes/main_game.tscn")
+	get_tree().change_scene_to_file("res://scenes/SelectScene.tscn")
 
 
 func _on_load_pressed() -> void:
